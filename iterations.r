@@ -10,18 +10,19 @@ library(anytime)
 library(readr)
 library(yaml)
 
+
 #### 1: Beginning of script
 
 # Load function for posting GQL-queries and retrieving data: 
-source("functions/GQL_function.r")
+source("iterations-Philipsuttie/functions/GQL_function.r")
 
 # The URL we will use is stored below: 
 
 configs <- 
-  read_yaml("vegvesen_configs.yml")
+  read_yaml("iterations-Philipsuttie/vegvesen_configs.yml")
 
 
-gql_metadata_qry <- read_file("gql-queries/station_metadata.gql")
+gql_metadata_qry <- read_file("iterations-Philipsuttie/gql-queries/station_metadata.gql")
 
 # Let's try submitting the query: 
 
@@ -34,7 +35,7 @@ stations_metadata <-
 
 #### 2: Transforming metadata
 
-source("functions/data_transformations.r")
+source("iterations-Philipsuttie/functions/data_transformations.r")
 
 stations_metadata_df <- 
   stations_metadata %>% 
