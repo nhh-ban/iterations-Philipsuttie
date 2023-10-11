@@ -10,7 +10,6 @@ library(anytime)
 library(readr)
 library(yaml)
 
-
 #### 1: Beginning of script
 
 # Load function for posting GQL-queries and retrieving data: 
@@ -43,13 +42,13 @@ stations_metadata_df <-
 
 
 #### 3: Testing metadata
-source("functions/data_tests.r")
+source("iterations-Philipsuttie/functions/data_tests.r")
 test_stations_metadata(stations_metadata_df)
 
 
 ### 5: Final volume query: 
 
-source("gql-queries/vol_qry.r")
+source("iterations-PhilipSuttie/gql-queries/vol_qry.r")
 
 stations_metadata_df %>% 
   filter(latestData > Sys.Date() - days(7)) %>% 

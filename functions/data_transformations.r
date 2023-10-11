@@ -22,4 +22,69 @@ transform_metadata_to_df <- function(stations_metadata) {
 }
 
 
+# Load necessary libraries
+library(anytime)
+library(lubridate)
+
+# Function to convert a date-time to ISO8601 format with an offset
+to_iso8601 <- function(datetime, offset) {
+  iso_date <- as.character(iso8601(datetime))
+  iso_date <- as_datetime(iso_date)
+  adjusted_date <- iso_date + days(offset)
+  iso_string <- format(adjusted_date, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  return(iso_string)
+}
+
+
+# Save the vol_qry function to a file
+writeLines('
+library(glue)
+
+vol_qry <- function(id, from, to) {
+  query <- glue(
+    \'{{
+      trafficData(trafficRegistrationPointId: "{id}") {{
+        volume {{
+          byHour(from: "{from}", to: "{to}") {{
+            edges {{
+              node {{
+                from
+                to
+                total {{
+                  volumeNumbers {{
+                    volume
+                  }}
+                }}
+              }}
+            }}
+          }}
+        }}
+      }}
+    }}\',
+    id = id,
+    from = from,
+    to = to
+  )
+  return(query)
+}
+', con = 'iterations-Philipsuttie/gql-queries/vol_qry.r')
+
+
+GQL(
+  vol_qry(
+    id=stations_metadata_df$id[1], 
+    from=to_iso8601(stations_metadata_df$latestData[1],-4),
+    to=to_iso8601(stations_metadata_df$latestData[1],0)
+  ),
+  .url = configs$vegvesen_url
+)
+
+
+
+
+
+
+
+
+
 
