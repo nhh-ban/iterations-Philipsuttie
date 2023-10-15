@@ -80,9 +80,21 @@ b <- GQL(
 )
 
 
-transform_volumes()
-
-
+# Define the function to transform Statens Vegvesen API data to a data frame
+transform_volumes <- function(api_data) {
+  # Extract the necessary information and flatten the list structure
+  volumes_df <- api_data$trafficData$volume$byHour$edges %>%
+    map_df(~ {
+      node <- .x$node
+      list(
+        from = as.POSIXct(node$from, tz = "UTC"),
+        to = as.POSIXct(node$to, tz = "UTC"),
+        volume = node$total$volumeNumbers$volume
+      )
+    })
+  
+  return(volumes_df)
+}
 
 
 
