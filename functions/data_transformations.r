@@ -70,7 +70,7 @@ vol_qry <- function(id, from, to) {
 ', con = 'iterations-Philipsuttie/gql-queries/vol_qry.r')
 
 
-GQL(
+b <- GQL(
   vol_qry(
     id=stations_metadata_df$id[1], 
     from=to_iso8601(stations_metadata_df$latestData[1],-4),
@@ -80,7 +80,7 @@ GQL(
 )
 
 
-
+transform_volumes()
 
 
 
