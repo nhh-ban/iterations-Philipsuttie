@@ -13,15 +13,15 @@ library(yaml)
 #### 1: Beginning of script
 
 # Load function for posting GQL-queries and retrieving data: 
-source("iterations-Philipsuttie/functions/GQL_function.r")
+source("functions/GQL_function.r")
 
 # The URL we will use is stored below: 
 
 configs <- 
-  read_yaml("iterations-Philipsuttie/vegvesen_configs.yml")
+  read_yaml("vegvesen_configs.yml")
 
 
-gql_metadata_qry <- read_file("iterations-Philipsuttie/gql-queries/station_metadata.gql")
+gql_metadata_qry <- read_file("gql-queries/station_metadata.gql")
 
 # Let's try submitting the query: 
 
@@ -34,7 +34,7 @@ stations_metadata <-
 
 #### 2: Transforming metadata
 
-source("iterations-Philipsuttie/functions/data_transformations.r")
+source("functions/data_transformations.r")
 
 stations_metadata_df <- 
   stations_metadata %>% 
@@ -42,13 +42,13 @@ stations_metadata_df <-
 
 
 #### 3: Testing metadata
-source("iterations-Philipsuttie/functions/data_tests.r")
+source("functions/data_tests.r")
 test_stations_metadata(stations_metadata_df)
 
 
 ### 5: Final volume query: 
 
-source("iterations-PhilipSuttie/gql-queries/vol_qry.r")
+source("gql-queries/vol_qry.r")
 
 stations_metadata_df %>% 
   filter(latestData > Sys.Date() - days(7)) %>% 

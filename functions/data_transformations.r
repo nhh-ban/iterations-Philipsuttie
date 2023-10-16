@@ -74,10 +74,13 @@ b <- GQL(
   vol_qry(
     id=stations_metadata_df$id[1], 
     from=to_iso8601(stations_metadata_df$latestData[1],-4),
-    to=to_iso8601(stations_metadata_df$latestData[1],0)
+    to=to_iso8601(stations_metadata_df$latestData[1],0),
+    name = stations_metadata_df$name
   ),
   .url = configs$vegvesen_url
 )
+
+
 
 
 # Define the function to transform Statens Vegvesen API data to a data frame
@@ -92,11 +95,7 @@ transform_volumes <- function(api_data) {
         volume = node$total$volumeNumbers$volume
       )
     })
-  
   return(volumes_df)
 }
-
-
-
 
 
